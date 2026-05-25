@@ -1,0 +1,37 @@
+package pl.edu.ug.eventmanagerworker.domain;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Setter(AccessLevel.NONE)
+    private UUID id;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Booking> bookings;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Event> events;
+
+    @Column(unique = true)
+    private String name;
+
+    @Column(unique = true)
+    private String email;
+
+    private String password;
+
+}
