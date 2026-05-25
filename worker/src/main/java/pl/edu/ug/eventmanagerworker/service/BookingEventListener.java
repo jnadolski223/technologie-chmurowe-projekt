@@ -15,13 +15,13 @@ public class BookingEventListener {
 
     private final BookingService bookingService;
 
-    @RabbitListener(queues = RabbitMQConsumerConfig.CREATE_BOOKING_QUEUE)
+    @RabbitListener(queues = RabbitMQConsumerConfig.BOOKING_CREATE_QUEUE)
     public void handleBookingCreateRequest(BookingCreateRequest request) {
         log.info("Received new booking creation request: {}", request.toString());
         bookingService.createBooking(request);
     }
 
-    @RabbitListener(queues = RabbitMQConsumerConfig.DELETE_BOOKING_QUEUE)
+    @RabbitListener(queues = RabbitMQConsumerConfig.BOOKING_DELETE_QUEUE)
     public void handleBookingDeleteRequest(BookingDeleteRequest request) {
         log.info("Received new booking deletion request: {}", request.toString());
         bookingService.deleteBooking(request);
