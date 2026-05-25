@@ -27,5 +27,4 @@ public class Booking {
     private Event event;
 
     private Instant bookingTime;
-
 }

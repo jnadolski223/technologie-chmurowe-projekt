@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.ug.eventmanagerbackend.config.RabbitMQProducerConfig;
 import pl.edu.ug.eventmanagerbackend.domain.Event;
 import pl.edu.ug.eventmanagerbackend.domain.User;
-import pl.edu.ug.eventmanagerbackend.dto.booking.BookingDeleteRequest;
 import pl.edu.ug.eventmanagerbackend.dto.booking.BookingCreateRequest;
+import pl.edu.ug.eventmanagerbackend.dto.booking.BookingDeleteRequest;
 import pl.edu.ug.eventmanagerbackend.dto.booking.BookingResponse;
 import pl.edu.ug.eventmanagerbackend.exception.NotFoundException;
 import pl.edu.ug.eventmanagerbackend.repository.BookingRepository;
@@ -32,7 +32,7 @@ public class BookingService {
     public void createBooking(BookingCreateRequest request) {
         rabbitTemplate.convertAndSend(
                 RabbitMQProducerConfig.BOOKING_EXCHANGE,
-                RabbitMQProducerConfig.CREATE_BOOKING_ROUTING_KEY,
+                RabbitMQProducerConfig.BOOKING_CREATE_ROUTING_KEY,
                 request
         );
     }
@@ -73,7 +73,7 @@ public class BookingService {
 
         rabbitTemplate.convertAndSend(
                 RabbitMQProducerConfig.BOOKING_EXCHANGE,
-                RabbitMQProducerConfig.DELETE_BOOKING_ROUTING_KEY,
+                RabbitMQProducerConfig.BOOKING_DELETE_ROUTING_KEY,
                 request
         );
     }

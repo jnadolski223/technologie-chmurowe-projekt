@@ -8,7 +8,6 @@ import pl.edu.ug.eventmanagerbackend.config.ApiPaths;
 import pl.edu.ug.eventmanagerbackend.dto.ApiResponse;
 import pl.edu.ug.eventmanagerbackend.dto.booking.BookingResponse;
 import pl.edu.ug.eventmanagerbackend.dto.event.EventResponse;
-import pl.edu.ug.eventmanagerbackend.dto.user.UserLoginRequest;
 import pl.edu.ug.eventmanagerbackend.dto.user.UserLoginResponse;
 import pl.edu.ug.eventmanagerbackend.dto.user.UserRequest;
 import pl.edu.ug.eventmanagerbackend.dto.user.UserResponse;
@@ -43,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<UserLoginResponse>> loginUser(@RequestBody UserLoginRequest credentials) {
+    public ResponseEntity<ApiResponse<UserLoginResponse>> loginUser(@RequestBody UserRequest credentials) {
         UserLoginResponse response = userService.loginUser(credentials);
 
         return ResponseEntity.ok(ApiResponse.success(

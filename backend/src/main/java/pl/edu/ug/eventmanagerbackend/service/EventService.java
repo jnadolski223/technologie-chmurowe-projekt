@@ -12,13 +12,14 @@ import pl.edu.ug.eventmanagerbackend.exception.UnprocessableContentException;
 import pl.edu.ug.eventmanagerbackend.repository.EventRepository;
 import pl.edu.ug.eventmanagerbackend.repository.UserRepository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class EventService {
 
     private final EventRepository eventRepository;
@@ -34,8 +35,12 @@ public class EventService {
             throw new UnprocessableContentException("Field 'title' cannot be empty");
         }
 
-        if (request.dateAndTime() == null) {
-            throw new UnprocessableContentException("Field 'dateAndTime' cannot be empty");
+        if (request.date() == null) {
+            throw new UnprocessableContentException("Field 'date' cannot be empty");
+        }
+
+        if (request.time() == null) {
+            throw new UnprocessableContentException("Field 'time' cannot be empty");
         }
 
         if (request.location() == null) {
@@ -53,7 +58,8 @@ public class EventService {
         Event event = Event.builder()
                 .user(user)
                 .title(request.title())
-                .dateAndTime(request.dateAndTime())
+                .date(request.date())
+                .time(request.time())
                 .location(request.location())
                 .description(request.description())
                 .build();
@@ -95,11 +101,12 @@ public class EventService {
                 .orElseThrow(() -> new NotFoundException("Event with ID " + eventId + " not found"));
 
         updateTitle(request.title(), event);
-        updateDateAndTime(request.dateAndTime(), event);
         updateLocation(request.location(), event);
+        updateDate(request.date(), event);
+        updateTime(request.time(), event);
         updateDescription(request.description(), event);
 
-        return null;
+        return EventResponse.fromEntity(event);
     }
 
     @Transactional
@@ -123,18 +130,6 @@ public class EventService {
         event.setTitle(title);
     }
 
-    private void updateDateAndTime(LocalDateTime dateAndTime, Event event) {
-        if (dateAndTime == null) {
-            throw new UnprocessableContentException("Field 'dateAndTime' cannot be empty");
-        }
-
-        if (dateAndTime.isEqual(event.getDateAndTime())) {
-            return;
-        }
-
-        event.setDateAndTime(dateAndTime);
-    }
-
     private void updateLocation(String location, Event event) {
         if (location == null) {
             throw new UnprocessableContentException("Field 'location' cannot be empty");
@@ -145,6 +140,30 @@ public class EventService {
         }
 
         event.setLocation(location);
+    }
+
+    private void updateDate(LocalDate date, Event event) {
+        if (date == null) {
+            throw new UnprocessableContentException("Field 'date' cannot be empty");
+        }
+
+        if (date.isEqual(event.getDate())) {
+            return;
+        }
+
+        event.setDate(date);
+    }
+
+    private void updateTime(LocalTime time, Event event) {
+        if (time == null) {
+            throw new UnprocessableContentException("Field 'time' cannot be empty");
+        }
+
+        if (time.equals(event.getTime())) {
+            return;
+        }
+
+        event.setTime(time);
     }
 
     private void updateDescription(String description, Event event) {

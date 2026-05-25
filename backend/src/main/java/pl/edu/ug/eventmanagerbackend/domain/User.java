@@ -20,14 +20,11 @@ public class User {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Booking> bookings;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Event> events;
-
-    @Column(unique = true)
-    private String name;
 
     @Column(unique = true)
     private String email;

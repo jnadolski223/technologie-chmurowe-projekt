@@ -2,15 +2,17 @@ package pl.edu.ug.eventmanagerbackend.dto.event;
 
 import pl.edu.ug.eventmanagerbackend.domain.Event;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 public record EventResponse(
         UUID id,
         UUID userId,
         String title,
-        LocalDateTime dateAndTime,
         String location,
+        LocalDate date,
+        LocalTime time,
         String description
 ) {
 
@@ -19,8 +21,9 @@ public record EventResponse(
                 event.getId(),
                 event.getUser().getId(),
                 event.getTitle(),
-                event.getDateAndTime(),
                 event.getLocation(),
+                event.getDate(),
+                event.getTime(),
                 event.getDescription()
         );
     }
