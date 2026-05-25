@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.edu.ug.eventmanagerbackend.config.RabbitMQConfig;
+import pl.edu.ug.eventmanagerbackend.config.RabbitMQProducerConfig;
 import pl.edu.ug.eventmanagerbackend.domain.Event;
 import pl.edu.ug.eventmanagerbackend.domain.User;
 import pl.edu.ug.eventmanagerbackend.dto.booking.BookingDeleteRequest;
-import pl.edu.ug.eventmanagerbackend.dto.booking.BookingRequest;
+import pl.edu.ug.eventmanagerbackend.dto.booking.BookingCreateRequest;
 import pl.edu.ug.eventmanagerbackend.dto.booking.BookingResponse;
 import pl.edu.ug.eventmanagerbackend.exception.NotFoundException;
 import pl.edu.ug.eventmanagerbackend.repository.BookingRepository;
@@ -29,10 +29,10 @@ public class BookingService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void createBooking(BookingRequest request) {
+    public void createBooking(BookingCreateRequest request) {
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.BOOKING_EXCHANGE,
-                RabbitMQConfig.CREATE_BOOKING_ROUTING_KEY,
+                RabbitMQProducerConfig.BOOKING_EXCHANGE,
+                RabbitMQProducerConfig.CREATE_BOOKING_ROUTING_KEY,
                 request
         );
     }
@@ -72,8 +72,8 @@ public class BookingService {
         BookingDeleteRequest request = new BookingDeleteRequest(bookingId);
 
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.BOOKING_EXCHANGE,
-                RabbitMQConfig.DELETE_BOOKING_ROUTING_KEY,
+                RabbitMQProducerConfig.BOOKING_EXCHANGE,
+                RabbitMQProducerConfig.DELETE_BOOKING_ROUTING_KEY,
                 request
         );
     }

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.ug.eventmanagerbackend.config.ApiPaths;
 import pl.edu.ug.eventmanagerbackend.dto.ApiResponse;
-import pl.edu.ug.eventmanagerbackend.dto.booking.BookingRequest;
+import pl.edu.ug.eventmanagerbackend.dto.booking.BookingCreateRequest;
 import pl.edu.ug.eventmanagerbackend.dto.booking.BookingResponse;
 import pl.edu.ug.eventmanagerbackend.service.BookingService;
 
@@ -20,7 +20,7 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> createBooking(@RequestBody BookingRequest request) {
+    public ResponseEntity<ApiResponse<Void>> createBooking(@RequestBody BookingCreateRequest request) {
         bookingService.createBooking(request);
 
         return ResponseEntity.accepted().body(ApiResponse.success(

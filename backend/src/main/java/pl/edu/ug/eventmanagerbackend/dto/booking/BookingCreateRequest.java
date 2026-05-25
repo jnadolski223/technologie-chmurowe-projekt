@@ -2,7 +2,7 @@ package pl.edu.ug.eventmanagerbackend.dto.booking;
 
 import java.util.UUID;
 
-public record BookingRequest(
+public record BookingCreateRequest(
         UUID userId,
         UUID eventId
 ) {}

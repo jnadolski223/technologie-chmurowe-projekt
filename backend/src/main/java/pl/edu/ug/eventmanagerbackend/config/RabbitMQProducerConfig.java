@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMQProducerConfig {
 
     public static final String BOOKING_EXCHANGE = "booking.exchange";
     public static final String CREATE_BOOKING_QUEUE = "booking.create.queue";
