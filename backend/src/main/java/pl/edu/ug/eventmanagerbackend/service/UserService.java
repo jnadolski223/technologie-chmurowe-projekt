@@ -24,13 +24,7 @@ public class UserService {
 
     @Transactional
     public UserResponse registerUser(UserRequest request) {
-        if (request.email() == null) {
-            throw new UnprocessableContentException("Field 'email' cannot be empty");
-        }
-
-        if (request.password() == null) {
-            throw new UnprocessableContentException("Field 'password' cannot be empty");
-        }
+        validateUserRequest(request);
 
         if (userRepository.existsByEmail(request.email())) {
             throw new ConflictException("Given email is already taken");
@@ -69,12 +63,22 @@ public class UserService {
                 .findById(userId)
                 .orElseThrow(() -> new NotFoundException("User with ID " + userId + " not found"));
 
-        updateEmail(request.email(), user);
-        updatePassword(request.password(), user);
+        if (!request.email().equals(user.getEmail())) {
+            if (userRepository.existsByEmail(request.email())) {
+                throw new ConflictException("Given email is already taken");
+            } else {
+                user.setEmail(request.email());
+            }
+        }
+
+        if (!request.password().equals(user.getPassword())) {
+            user.setPassword(request.password());
+        }
 
         return UserResponse.fromEntity(user);
     }
 
+    @Transactional
     public void deleteUser(UUID userId) {
         User user = userRepository
                 .findById(userId)
@@ -83,33 +87,14 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    private void updateEmail(String email, User user) {
-        if (email == null) {
+    private void validateUserRequest(UserRequest request) {
+        if (request.email() == null || request.email().isBlank()) {
             throw new UnprocessableContentException("Field 'email' cannot be empty");
         }
 
-        if (email.equals(user.getEmail())) {
-            return;
-        }
-
-        boolean isEmailTaken = userRepository.existsByEmail(email);
-        if (isEmailTaken) {
-            throw new ConflictException("Given email is already taken");
-        }
-
-        user.setEmail(email);
-    }
-
-    private void updatePassword(String password, User user) {
-        if (password == null) {
+        if (request.password() == null || request.password().isBlank()) {
             throw new UnprocessableContentException("Field 'password' cannot be empty");
         }
-
-        if (password.equals(user.getPassword())) {
-            return;
-        }
-
-        user.setPassword(password);
     }
 
 }

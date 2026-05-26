@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import java.time.Instant;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record ApiResponse<T>(
+public record ApiResponseWrapper<T>(
         Instant timestamp,
         int code,
         String status,
@@ -15,8 +15,8 @@ public record ApiResponse<T>(
         T data
 ) {
 
-    public static <T> ApiResponse<T> success(HttpStatus httpStatus, String message, String path, T data) {
-        return new ApiResponse<>(
+    public static <T> ApiResponseWrapper<T> success(HttpStatus httpStatus, String message, String path, T data) {
+        return new ApiResponseWrapper<>(
                 Instant.now(),
                 httpStatus.value(),
                 httpStatus.getReasonPhrase(),
@@ -26,8 +26,8 @@ public record ApiResponse<T>(
         );
     }
 
-    public static <T> ApiResponse<T> error(HttpStatus httpStatus, String message, String path) {
-        return new ApiResponse<>(
+    public static <T> ApiResponseWrapper<T> error(HttpStatus httpStatus, String message, String path) {
+        return new ApiResponseWrapper<>(
                 Instant.now(),
                 httpStatus.value(),
                 httpStatus.getReasonPhrase(),

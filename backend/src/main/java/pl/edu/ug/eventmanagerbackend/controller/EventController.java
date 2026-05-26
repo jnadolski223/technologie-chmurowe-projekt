@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.ug.eventmanagerbackend.config.ApiPaths;
-import pl.edu.ug.eventmanagerbackend.dto.ApiResponse;
+import pl.edu.ug.eventmanagerbackend.dto.ApiResponseWrapper;
 import pl.edu.ug.eventmanagerbackend.dto.booking.BookingResponse;
 import pl.edu.ug.eventmanagerbackend.dto.event.EventRequest;
 import pl.edu.ug.eventmanagerbackend.dto.event.EventResponse;
@@ -25,11 +25,11 @@ public class EventController {
     private final BookingService bookingService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<EventResponse>> createEvent(@RequestBody EventRequest request) {
+    public ResponseEntity<ApiResponseWrapper<EventResponse>> createEvent(@RequestBody EventRequest request) {
         EventResponse response = eventService.createEvent(request);
         URI location = URI.create(ApiPaths.EVENTS + "/" + response.id());
 
-        return ResponseEntity.created(location).body(ApiResponse.success(
+        return ResponseEntity.created(location).body(ApiResponseWrapper.success(
                 HttpStatus.CREATED,
                 "Event created successfully",
                 ApiPaths.EVENTS,
@@ -38,10 +38,10 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<ApiResponse<EventResponse>> getEventById(@PathVariable UUID eventId) {
+    public ResponseEntity<ApiResponseWrapper<EventResponse>> getEventById(@PathVariable UUID eventId) {
         EventResponse response = eventService.getEventById(eventId);
 
-        return ResponseEntity.ok(ApiResponse.success(
+        return ResponseEntity.ok(ApiResponseWrapper.success(
                 HttpStatus.OK,
                 "Event fetched successfully",
                 ApiPaths.EVENTS + "/" + eventId,
@@ -50,10 +50,10 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}/bookings")
-    public ResponseEntity<ApiResponse<List<BookingResponse>>> getAllBookingsByEventId(@PathVariable UUID eventId) {
+    public ResponseEntity<ApiResponseWrapper<List<BookingResponse>>> getAllBookingsByEventId(@PathVariable UUID eventId) {
         List<BookingResponse> response = bookingService.getAllBookingsByEventId(eventId);
 
-        return ResponseEntity.ok(ApiResponse.success(
+        return ResponseEntity.ok(ApiResponseWrapper.success(
                 HttpStatus.OK,
                 "Event's bookings fetched successfully",
                 ApiPaths.EVENTS + "/" + eventId + "/bookings",
@@ -62,10 +62,10 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<EventResponse>>> getAllEvents() {
+    public ResponseEntity<ApiResponseWrapper<List<EventResponse>>> getAllEvents() {
         List<EventResponse> response = eventService.getAllEvents();
 
-        return ResponseEntity.ok(ApiResponse.success(
+        return ResponseEntity.ok(ApiResponseWrapper.success(
                 HttpStatus.OK,
                 "List of events fetched successfully",
                 ApiPaths.EVENTS,
@@ -74,10 +74,10 @@ public class EventController {
     }
 
     @PutMapping("/{eventId}")
-    public ResponseEntity<ApiResponse<EventResponse>> updateEvent(@PathVariable UUID eventId, @RequestBody EventRequest request) {
+    public ResponseEntity<ApiResponseWrapper<EventResponse>> updateEvent(@PathVariable UUID eventId, @RequestBody EventRequest request) {
         EventResponse response = eventService.updateEvent(eventId, request);
 
-        return ResponseEntity.ok(ApiResponse.success(
+        return ResponseEntity.ok(ApiResponseWrapper.success(
                 HttpStatus.OK,
                 "Event updated successfully",
                 ApiPaths.EVENTS + "/" + eventId,

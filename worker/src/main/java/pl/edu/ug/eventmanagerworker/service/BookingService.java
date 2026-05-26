@@ -42,6 +42,16 @@ public class BookingService {
         User user = userOptional.get();
         Event event = eventOptional.get();
 
+        if (event.getUser().getId().equals(user.getId())) {
+            log.error("Booking creation cancelled: User ({}) cannot be booked for its own event ({})", user.getId(), event.getId());
+            return;
+        }
+
+        if (bookingRepository.existsByUserAndEvent(user, event)) {
+            log.error("User ({}) is already booked for the event ({})", user.getId(), event.getId());
+            return;
+        }
+
         Booking booking = Booking.builder()
                 .user(user)
                 .event(event)

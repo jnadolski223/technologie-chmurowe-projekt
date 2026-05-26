@@ -33,7 +33,7 @@ public class Event {
     private LocalDate date;
     private LocalTime time;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
 
 }

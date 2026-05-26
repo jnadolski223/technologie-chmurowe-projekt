@@ -12,8 +12,6 @@ import pl.edu.ug.eventmanagerbackend.exception.UnprocessableContentException;
 import pl.edu.ug.eventmanagerbackend.repository.EventRepository;
 import pl.edu.ug.eventmanagerbackend.repository.UserRepository;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,29 +25,7 @@ public class EventService {
 
     @Transactional
     public EventResponse createEvent(EventRequest request) {
-        if (request.userId() == null) {
-            throw new UnprocessableContentException("Field 'userId' cannot be empty");
-        }
-
-        if (request.title() == null) {
-            throw new UnprocessableContentException("Field 'title' cannot be empty");
-        }
-
-        if (request.date() == null) {
-            throw new UnprocessableContentException("Field 'date' cannot be empty");
-        }
-
-        if (request.time() == null) {
-            throw new UnprocessableContentException("Field 'time' cannot be empty");
-        }
-
-        if (request.location() == null) {
-            throw new UnprocessableContentException("Field 'location' cannot be empty");
-        }
-
-        if (request.description() == null) {
-            throw new UnprocessableContentException("Field 'description' cannot be empty");
-        }
+        validateEventRequest(request);
 
         User user = userRepository
                 .findById(request.userId())
@@ -100,11 +76,27 @@ public class EventService {
                 .findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with ID " + eventId + " not found"));
 
-        updateTitle(request.title(), event);
-        updateLocation(request.location(), event);
-        updateDate(request.date(), event);
-        updateTime(request.time(), event);
-        updateDescription(request.description(), event);
+        validateEventRequest(request);
+
+        if (!request.title().equals(event.getTitle())) {
+            event.setTitle(request.title());
+        }
+
+        if (!request.location().equals(event.getLocation())) {
+            event.setLocation(request.location());
+        }
+
+        if (!request.date().isEqual(event.getDate())) {
+            event.setDate(request.date());
+        }
+
+        if (!request.time().equals(event.getTime())) {
+            event.setTime(request.time());
+        }
+
+        if (!request.description().equals(event.getDescription())) {
+            event.setDescription(request.description());
+        }
 
         return EventResponse.fromEntity(event);
     }
@@ -118,64 +110,30 @@ public class EventService {
         eventRepository.delete(event);
     }
 
-    private void updateTitle(String title, Event event) {
-        if (title == null) {
+    private void validateEventRequest(EventRequest request) {
+        if (request.userId() == null) {
+            throw new UnprocessableContentException("Field 'userId' cannot be empty");
+        }
+
+        if (request.title() == null || request.title().isBlank()) {
             throw new UnprocessableContentException("Field 'title' cannot be empty");
         }
 
-        if (title.equals(event.getTitle())) {
-            return;
-        }
-
-        event.setTitle(title);
-    }
-
-    private void updateLocation(String location, Event event) {
-        if (location == null) {
+        if (request.location() == null || request.location().isBlank()) {
             throw new UnprocessableContentException("Field 'location' cannot be empty");
         }
 
-        if (location.equals(event.getLocation())) {
-            return;
-        }
-
-        event.setLocation(location);
-    }
-
-    private void updateDate(LocalDate date, Event event) {
-        if (date == null) {
+        if (request.date() == null) {
             throw new UnprocessableContentException("Field 'date' cannot be empty");
         }
 
-        if (date.isEqual(event.getDate())) {
-            return;
-        }
-
-        event.setDate(date);
-    }
-
-    private void updateTime(LocalTime time, Event event) {
-        if (time == null) {
+        if (request.time() == null) {
             throw new UnprocessableContentException("Field 'time' cannot be empty");
         }
 
-        if (time.equals(event.getTime())) {
-            return;
-        }
-
-        event.setTime(time);
-    }
-
-    private void updateDescription(String description, Event event) {
-        if (description == null) {
+        if (request.description() == null || request.description().isBlank()) {
             throw new UnprocessableContentException("Field 'description' cannot be empty");
         }
-
-        if (description.equals(event.getDescription())) {
-            return;
-        }
-
-        event.setDescription(description);
     }
 
 }
