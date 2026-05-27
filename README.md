@@ -1,5 +1,17 @@
 # Projekt Kubernetes — aplikacja wieloserwisowa z CI/CD
 
+## Cel projektu
+Projekt polega na przygotowaniu działającej aplikacji wieloserwisowej uruchamianej w Kubernetes oraz wdrażanej przez
+pipeline CI/CD w GitHub Actions. Wariant Kubernetes jest trudniejszy od wariantu Docker: wymaga manifestów klastra,
+trwałego storage, Ingressa, sond, limitów zasobów, securityContext i automatycznego wdrożenia.
+
+Projekt powinien dać się sprawdzić w około 20 minut na osobę. Repozytorium musi zawierać CHECKLIST.md z instrukcją
+uruchomienia na kind, minikube albo k3d, listą zasobów Kubernetes, komendami kubectl, przykładowymi wynikami i linkiem
+do ostatniego udanego workflow GitHub Actions.
+
+Funkcjonalność aplikacji ma być ograniczona i pomocnicza. Oceniana jest przede wszystkim architektura wdrożeniowa
+w klastrze oraz automatyzacja CI/CD.
+
 ## Wymagania wspólne (dla wszystkich projektów)
 ### Wymagania architektoniczne — Kubernetes i CI/CD
 Suma wag w tej grupie: 80%.
@@ -40,4 +52,4 @@ Suma wag w tej grupie: 20%.
 |-----------------------|------|
 | Wspólne wymagania     | 90%  |
 | Specyficzne wymagania | 20%  |
-| RAZEM                 | 100% |
+| RAZEM                 | 110% |
