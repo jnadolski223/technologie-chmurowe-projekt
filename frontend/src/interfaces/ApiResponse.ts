@@ -1,4 +1,4 @@
-export interface ApiResponseWrapper<T> {
+export interface ApiResponse<T> {
   timestamp: string;
   code: number;
   status: string;

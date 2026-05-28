@@ -22,9 +22,7 @@ export default function EventCard({ event }: EventCardProps) {
       <p>{event.date}, {event.time}</p>
       <p>{event.location}</p>
       <p>{shortDescription}</p>
-      <Link to={`/events/${event.id}`}>
-        <button>Wyświetl</button>
-      </Link>
+      <Link to={`/events/${event.id}`}>Wyświetl</Link>
     </div>
   )
 }

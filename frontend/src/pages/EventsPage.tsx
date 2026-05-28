@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { EventData } from '../interfaces/EventData.ts';
-import type { ApiResponseWrapper } from '../interfaces/ApiResponseWrapper.ts';
+import type { ApiResponse } from '../interfaces/ApiResponse.ts';
 import EventList from '../components/EventList.tsx';
 import { config } from '../config/config.ts';
 
@@ -10,41 +10,36 @@ export default function EventsPage() {
   const [error, setError] = useState<string | null>(null);
   
   useEffect((): void => {
-    async function fetchEvents() {
+    const fetchEvents: () => Promise<void> = async (): Promise<void> => {
+      const errorMessage: string = 'Błąd: Nie udało się pobrać listy wydarzeń';
+
       try {
         setIsLoading(true);
+        setError(null);
+
         const response: Response = await fetch(`${config.apiBaseUrl}/events`);
         if (!response.ok) {
-          let errorMessage: string = `Błąd serwera: (Status: ${response.status})`;
-          
-          try {
-            const errorResult: ApiResponseWrapper<never> = await response.json();
-            if (errorResult.message) {
-              errorMessage = errorResult.message;
-            }
-          } catch { /* empty */ }
-          
+          const apiErrorData: ApiResponse<never> = await response.json().catch((): null => null);
+          console.error('Błąd API:', { status: response.status, apiResponse: apiErrorData });
           setError(errorMessage);
           return;
         }
-        
-        const result: ApiResponseWrapper<EventData[]> = await response.json();
+
+        const result: ApiResponse<EventData[]> = await response.json();
         if (!result.data) {
-          setError('Otrzymano pustą odpowiedź z serwera.');
+          console.error('Błąd API: Zwrócono status 200, ale brakuje danych:', result);
+          setError(errorMessage);
           return;
         }
-        
+
         setEvents(result.data);
       } catch (err) {
-        if (err instanceof Error) {
-          setError(`Wystąpił błąd sieci: ${err.message}`);
-        } else {
-          setError('Wystąpił nieznany błąd aplikacji.');
-        }
+        console.error('Błąd sieciowy / krytyczny aplikacji:', err);
+        setError(errorMessage);
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
     fetchEvents().catch((err: unknown): void => {
       console.error(`Nieobsłużony błąd w fetchEvents: ${err}`);
