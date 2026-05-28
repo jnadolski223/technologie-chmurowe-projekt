@@ -1,5 +1,5 @@
-import type { EventData } from '../interfaces/EventData.ts';
 import EventCard from './EventCard.tsx';
+import type { EventData } from '../interfaces';
 
 interface EventListProps {
   events: EventData[];

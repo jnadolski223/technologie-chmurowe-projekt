@@ -1,11 +1,11 @@
-import type { EventData } from '../interfaces/EventData.ts';
 import { Link } from 'react-router-dom';
+import type { EventData } from '../interfaces';
 
 interface EventCardProps {
   event: EventData
 }
 
-function truncateText(text: string, maxLength: number): string {
+const truncateText = (text: string, maxLength: number): string => {
   if (text.length <= maxLength) {
     return text;
   }

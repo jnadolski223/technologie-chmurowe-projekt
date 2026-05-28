@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import type { EventData } from '../interfaces/EventData.ts';
-import type { ApiResponse } from '../interfaces/ApiResponse.ts';
 import EventList from '../components/EventList.tsx';
 import { config } from '../config/config.ts';
+import type { ApiResponse, EventData } from '../interfaces';
 
 export default function EventsPage() {
   const [events, setEvents] = useState<EventData[]>([]);
