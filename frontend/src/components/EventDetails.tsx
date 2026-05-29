@@ -17,7 +17,7 @@ export default function EventDetails({ event, bookingCount, isOwner, bookingId }
   };
 
   const handleEdit = (): void => {
-    navigate(`/events/${event.id}/edit`);
+    navigate(`/events/${event.id}/form`);
   }
 
   const handleDelete = async (): Promise<void> => {
