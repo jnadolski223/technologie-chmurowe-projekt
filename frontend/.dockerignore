@@ -1,0 +1,27 @@
+# Zależności i pliki lokalne (kluczowe!)
+node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Katalogi z budowania (lokalne)
+dist/
+build/
+
+# Konfiguracja IDE i edytorów
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Git
+.git/
+.gitignore
+
+# Systemowe śmieci
+.DS_Store
+Thumbs.db

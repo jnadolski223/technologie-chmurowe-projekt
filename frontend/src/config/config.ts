@@ -1,4 +1,4 @@
 export const config = {
-  apiBaseUrl: 'http://localhost:8080/api/v1',
+  apiBaseUrl: '/api',
   userStorageKey: 'user'
 };

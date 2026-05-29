@@ -1,0 +1,26 @@
+# Lokalne katalogi budowania i cache
+.gradle/
+build/
+bin/
+out/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE (IntelliJ, Eclipse, VS Code)
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# Dokumentacja i logi
+HELP.md
+*.log
+
+# Systemowe pliki śmieci
+.DS_Store
+Thumbs.db
