@@ -1,25 +1,40 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage.tsx';
+import EventLayout from "./pages/events/EventLayout.tsx";
+import EventsPage from './pages/events/EventsPage.tsx';
+import EventDetailsPage from './pages/events/EventDetailsPage.tsx';
+import EventFormPage from './pages/events/EventFormPage.tsx';
+import AccountLayout from './pages/account/AccountLayout.tsx';
+import AccountProfilePage from './pages/account/AccountProfilePage.tsx';
+import AccountEventsPage from './pages/account/AccountEventsPage.tsx';
+import AccountBookingsPage from './pages/account/AccountBookingsPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
-import EventsPage from './pages/EventsPage.tsx';
-import EventDetailsPage from './pages/EventDetailsPage.tsx';
-import EventFormPage from './pages/EventFormPage.tsx';
 
 export default function App() {
   return (
     <BrowserRouter>
       <nav>
-        <Link to="/">Strona Główna</Link>
-        <Link to="/events">Wydarzenia</Link>
-        <Link to="/account">Konto</Link>
+        <NavLink to="/">Strona Główna</NavLink>
+        <NavLink to="/events">Wydarzenia</NavLink>
+        <NavLink to="/account">Konto</NavLink>
       </nav>
+
+      <hr/>
 
       <Routes>
         <Route path="/" element={<HomePage/>}/>
-        <Route path="/events" element={<EventsPage/>}/>
-        <Route path="/events/form" element={<EventFormPage/>}/>
-        <Route path="/events/:eventId" element={<EventDetailsPage/>}/>
-        <Route path="/events/:eventId/form" element={<EventFormPage/>}/>
+
+        <Route path="/events" element={<EventLayout/>}>
+          <Route index element={<EventsPage/>}/>
+          <Route path="form" element={<EventFormPage/>}/>
+          <Route path=":eventId" element={<EventDetailsPage/>}/>
+          <Route path=":eventId/form" element={<EventFormPage/>}/>
+        </Route>
+        <Route path="/account" element={<AccountLayout/>}>
+          <Route path="profile" element={<AccountProfilePage/>}/>
+          <Route path="events" element={<AccountEventsPage/>}/>
+          <Route path="bookings" element={<AccountBookingsPage/>}/>
+        </Route>
         <Route path="*" element={<NotFoundPage/>}/>
       </Routes>
     </BrowserRouter>

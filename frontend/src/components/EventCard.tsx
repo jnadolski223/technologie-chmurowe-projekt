@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { type NavigateFunction, useNavigate } from 'react-router-dom';
 import type { EventData } from '../interfaces';
 
 interface EventCardProps {
@@ -14,7 +14,13 @@ const truncateText = (text: string, maxLength: number): string => {
 }
 
 export default function EventCard({ event }: EventCardProps) {
+  const navigate: NavigateFunction = useNavigate();
+
   const shortDescription: string = truncateText(event.description, 100);
+
+  const handleShowDetails = (): void => {
+    navigate(`/events/${event.id}`);
+  }
 
   return (
     <div>
@@ -22,7 +28,7 @@ export default function EventCard({ event }: EventCardProps) {
       <p>{event.date}, {event.time}</p>
       <p>{event.location}</p>
       <p>{shortDescription}</p>
-      <Link to={`/events/${event.id}`}>Wyświetl</Link>
+      <button onClick={handleShowDetails}>Wyświetl szczegóły</button>
     </div>
   )
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, type NavigateFunction } from 'react-router-dom';
-import EventForm from '../components/EventForm.tsx';
-import { config } from '../config/config.ts';
-import type { ApiResponse, EventData, UserStorageData } from '../interfaces';
+import EventForm from '../../components/EventForm.tsx';
+import { config } from '../../config/config.ts';
+import type { ApiResponse, EventData, UserStorageData } from '../../interfaces';
 
 export default function EventFormPage() {
   const { eventId } = useParams<{ eventId: string }>();

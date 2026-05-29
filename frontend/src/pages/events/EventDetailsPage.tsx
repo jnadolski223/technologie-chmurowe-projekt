@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, type NavigateFunction } from 'react-router-dom';
-import EventDetails from '../components/EventDetails.tsx';
-import { config } from '../config/config.ts';
-import type { ApiResponse, BookingData, EventData, UserStorageData } from '../interfaces';
+import EventDetails from '../../components/EventDetails.tsx';
+import { config } from '../../config/config.ts';
+import type { ApiResponse, BookingData, EventData, UserStorageData } from '../../interfaces';
 
 export default function EventDetailsPage() {
   const { eventId } = useParams<{ eventId: string }>();
