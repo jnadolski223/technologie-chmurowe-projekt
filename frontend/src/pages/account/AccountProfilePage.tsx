@@ -89,6 +89,12 @@ export default function AccountProfilePage() {
     }
   }
 
+  const handleLogOut = (): void => {
+    localStorage.removeItem(config.userStorageKey);
+    alert('Zostałeś pomyślnie wylogowany!');
+    navigate('/login');
+  }
+
   if (isLoading) {
     return (<p>Ładowanie profilu użytkownika...</p>);
   }
@@ -110,6 +116,7 @@ export default function AccountProfilePage() {
       <div>
         <button onClick={handleEdit}>Edytuj dane</button>
         <button onClick={handleDelete}>Usuń konto</button>
+        <button onClick={handleLogOut}>Wyloguj</button>
       </div>
     </div>
   )

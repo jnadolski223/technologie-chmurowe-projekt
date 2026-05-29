@@ -54,10 +54,10 @@ export default function EventDetails({ event, bookingCount, isOwner, bookingId }
         const userData: UserStorageData = JSON.parse(userDataRaw);
         const userId: string = userData.id;
 
-        const response: Response = await fetch('/booking', {
+        const response: Response = await fetch(`${config.apiBaseUrl}/bookings`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: userId, event: event.id })
+          body: JSON.stringify({ userId: userId, eventId: event.id })
         });
 
         if (response.ok) {
@@ -69,7 +69,7 @@ export default function EventDetails({ event, bookingCount, isOwner, bookingId }
           alert('Błąd: Nie udało się zapisać na wydarzenie.');
         }
       } else {
-        const response: Response = await fetch(`/booking/${bookingId}`, { method: 'DELETE' });
+        const response: Response = await fetch(`${config.apiBaseUrl}/bookings/${bookingId}`, { method: 'DELETE' });
         if (response.ok) {
           alert('Serwis przyjął zgłoszenie wypisu - może to potrwać chwilę.');
           navigate('/events');

@@ -11,6 +11,10 @@ export default function AccountEventsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const handleGoToCreateForm = (): void => {
+    navigate('/events/form');
+  }
+
   useEffect((): void => {
     const fetchEvents: () => Promise<void> = async (): Promise<void> => {
       const errorMessage: string = 'Błąd: Nie udało się pobrać listy wydarzeń';
@@ -74,6 +78,7 @@ export default function AccountEventsPage() {
   return (
     <div>
       <h1>Moje wydarzenia</h1>
+      <button onClick={handleGoToCreateForm}>Utwórz nowe wydarzenie</button>
       <EventList events={events}/>
     </div>
   );
